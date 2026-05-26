@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="index.css">
+    <title>Ruleta</title>
+</head>
+<body>
+    <main class="app">
+        <section class="hero">
+            <div>
+                <p class="eyebrow">Juego interactivo</p>
+                <h1 class="hero__title">Ruleta de decisiones</h1>
+                <p class="hero__copy">
+                    Preparen sus participantes, conecten su lógica en clase y dejen que la ruleta haga el resto.
+                </p>
+            </div>
+
+            <div class="hero__badge">
+                <p class="hero__badge-label">Diseño listo</p>
+                <strong class="hero__badge-value">8 espacios visibles</strong>
+                <span class="hero__badge-copy">Pensado para capturar nombres y mostrarlos con claridad antes del giro.</span>
+            </div>
+        </section>
+
+        <section class="board" aria-label="Ruleta interactiva">
+            <div class="wheel-shell">
+                <div class="wheel-shell__header">
+                    <p class="wheel-shell__eyebrow">Vista previa</p>
+                    <p class="wheel-shell__title">Así se verán los nombres dentro de la ruleta</p>
+                </div>
+
+                <div class="wheel-stage">
+                    <div class="pointer" aria-hidden="true"></div>
+
+                    <div class="wheel" id="wheel">
+                        <span class="wheel__label wheel__label--1">Ana</span>
+                        <span class="wheel__label wheel__label--2">Luis</span>
+                        <span class="wheel__label wheel__label--3">Mar</span>
+                        <span class="wheel__label wheel__label--4">Diego</span>
+                        <span class="wheel__label wheel__label--5">Sofía</span>
+                        <span class="wheel__label wheel__label--6">Joel</span>
+                        <span class="wheel__label wheel__label--7">Karla</span>
+                        <span class="wheel__label wheel__label--8">Erick</span>
+                    </div>
+
+                    <div class="wheel__hub" aria-hidden="true"></div>
+                </div>
+
+                <div class="wheel-shell__footer">
+                    <span class="wheel-shell__pill">Colores diferenciados</span>
+                    <span class="wheel-shell__pill">Nombres visibles</span>
+                    <span class="wheel-shell__pill">Lista lista para enlazar</span>
+                </div>
+            </div>
+
+            <aside class="panel">
+                <div class="panel__card panel__card--form">
+                    <p class="panel__label">Participantes</p>
+                    <h2 class="panel__title">Agrega nombres a tu ruleta</h2>
+                    <p class="panel__hint">
+                        Diseñé este espacio para que aquí capturen los nombres y luego conecten su lógica en clase.
+                    </p>
+
+                    <form id="AgregarJugador" class="name-form">
+                        <label class="name-form__label" for="participantName">Nombre</label>
+                        <div class="name-form__row">
+                            <input
+                                class="name-form__input"
+                                id="participantName"
+                                name="participantName"
+                                type="text"
+                                placeholder="Escribe un nombre"
+                                autocomplete="off"
+                            >
+                            <button class="name-form__button" type="submit">Agregar</button>
+                        </div>
+                    </form>
+
+                    <div id="contenedor-chips" class=" chips" aria-label="Nombres de ejemplo">
+                    
+                    </div>
+                </div>
+
+                <div class="panel__card panel__card--action">
+                    <p class="panel__label">Selección</p>
+                    <h2 class="panel__result" id="result">Aquí aparecerá el nombre ganador</h2>
+                    <p class="panel__hint">La flecha superior seguirá marcando la sección seleccionada cuando agreguen su funcionalidad.</p>
+
+                    <button class="spin-button" id="spinButton" type="button">
+                        Girar ruleta
+                    </button>
+                </div>
+
+                <div class="panel__card panel__card--list">
+                    <p class="panel__label">Lista visible</p>
+                    <ul class="legend" aria-label="Nombres actuales de la ruleta">
+                        <li><span class="legend__color legend__color--1"></span>Ana</li>
+                        <li><span class="legend__color legend__color--2"></span>Luis</li>
+                        <li><span class="legend__color legend__color--3"></span>Mar</li>
+                        <li><span class="legend__color legend__color--4"></span>Diego</li>
+                        <li><span class="legend__color legend__color--5"></span>Sofía</li>
+                        <li><span class="legend__color legend__color--6"></span>Joel</li>
+                        <li><span class="legend__color legend__color--7"></span>Karla</li>
+                        <li><span class="legend__color legend__color--8"></span>Erick</li>
+                    </ul>
+                </div>
+            </aside>
+        </section>
+    </main>
+<script src="./index.js"></script>
+</body>
+</html>
