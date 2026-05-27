@@ -1,34 +1,75 @@
-let juagadores=['joscriss','cris','errosr','jochis']
-let contenedorchips=document.querySelector('#contenedor-chips')
-let AgregarJugador=document.querySelector("#AgregarJugador")
-let ruleta=document.querySelector('#wheel')
+let jugadores = ['joscriss', 'cris', 'errosr', 'jochis']
 
-const renderizajuagadores=()=>{
-contenedorchips.innerHTML=''
+let contenedorchips = document.querySelector('#contenedor-chips')
 
-ruleta.style.setProperty('--count', Math.max(jugadores.length, 1))
+let AgregarJugador =
+    document.querySelector("#AgregarJugador")
 
-    for(let i=0;i<juagadores.length;i++){
-    let span=document.createElement('span')
-    span.className="chip"
-    span.textContent=juagadores[i]
-    contenedorchips.appendChild(span)
+let ruleta =
+    document.querySelector('#wheel')
 
-  /*   ruleta.append(span) */
-    let spanRuleta=document.createElement('span')
-spanRuleta.textContent=juagadores[i]
-spanRuleta.style.setProperty('--index', i + 1)
-    spanRuleta.className="wheel__label wheel__label--1 ${i+1}"
-    releta.appendChild(spanRuleta)
+const renderizaJugadores = () => {
+
+    contenedorchips.innerHTML = ''
+
+    ruleta.innerHTML = ''
+
+    ruleta.style.setProperty(
+        '--count',
+        Math.max(jugadores.length, 1)
+    )
+
+    for (let i = 0; i < jugadores.length; i++) {
+
+        // chips
+        let span = document.createElement('span')
+
+        span.className = "chip"
+
+        span.textContent = jugadores[i]
+
+        contenedorchips.appendChild(span)
+
+        // nombres dentro de ruleta
+        let spanRuleta =
+            document.createElement('span')
+
+        spanRuleta.textContent = jugadores[i]
+
+        spanRuleta.style.setProperty(
+            '--index',
+            i + 1
+        )
+
+        spanRuleta.className =
+            `wheel__label wheel__label--${i + 1}`
+
+        ruleta.appendChild(spanRuleta)
+
+    }
+
 }
 
-AgregarJugador.addEventListener("submit",(eval)=>{
-eval.preventDefaut()
-spanRuleta.className = 'wheel__label'
-console.log(eval.target.AgregarJugador.value)
-juagadores.push(event.target.participantName.value)
-AgregarJugador.reset()
-renderizajuagadores()
-})
-}
-renderizajuagadores()
+AgregarJugador.addEventListener(
+    "submit",
+    (event) => {
+
+        event.preventDefault()
+
+        let nombre =
+            event.target.participantName.value
+
+        if (nombre.trim() !== '') {
+
+            jugadores.push(nombre)
+
+            AgregarJugador.reset()
+
+            renderizaJugadores()
+
+        }
+
+    }
+)
+
+renderizaJugadores()
