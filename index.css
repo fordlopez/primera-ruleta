@@ -152,6 +152,17 @@ body {
             rgba(255, 255, 255, 0.52) calc(var(--slice) - 0.9deg) var(--slice)
         );
     transition: transform 5.2s cubic-bezier(0.15, 0.85, 0.18, 1);
+    --grados:360deg;
+    --inicio:0deg;
+}
+@keyframes girar {
+    from{
+        transform: rotate(var(--inicio));
+    }
+    to{
+        transform: rotate(var(--grados));
+    }
+    
 }
 .wheel::before {
     content: "";
