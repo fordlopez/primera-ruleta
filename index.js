@@ -1,93 +1,74 @@
-let jugadores = ['joscriss', 'chris', 'error404', 'jochis','Abner']
-let contenedorchips = document.querySelector('#contenedor-chips')
-let AgregarJugador =
-    document.querySelector("#AgregarJugador")
-let ruleta =
-    document.querySelector('#wheel')
-let botonGirar=document.querySelector('#spinButton')
-let inicio=0
-let result=document.querySelector('#result')
-let posicionActual=0
+let jugadores = ['Joscress', 'Chris', 'Abner', 'Error404', 'Jochis']
+let contenedorChips = document.querySelector('#contenedor-chips')
+let formAgregarJugador = document.querySelector('#AgregarJugador')
+let ruleta = document.querySelector('#wheel')
+let botonGirar = document.querySelector('#spinButton')
+let result = document.querySelector('#result')
+let inicio = 0;
 
-const renderizaJugadores = () => {
-
-    contenedorchips.innerHTML = ''
-
+const renderizarJugadores = () => {
+    contenedorChips.innerHTML = ''
     ruleta.innerHTML = ''
 
-    ruleta.style.setProperty(
-        '--count',
-        Math.max(jugadores.length, 1)
-    )
+    ruleta.style.setProperty('--count', Math.max(jugadores.length, 1))
 
     for (let i = 0; i < jugadores.length; i++) {
         let span = document.createElement('span')
-        span.className = "chip"
+        span.className = 'chip'
         span.textContent = jugadores[i]
-        contenedorchips.appendChild(span)
+        contenedorChips.appendChild(span)
 
-        let spanRuleta =
-            document.createElement('span')
-
+        let spanRuleta = document.createElement('span')
         spanRuleta.textContent = jugadores[i]
-
-        spanRuleta.style.setProperty(
-            '--index',
-            i + 1
-        )
-
-        spanRuleta.className =
-            `wheel__label wheel__label--${i + 1}`
-
+        spanRuleta.className = 'wheel__label'
+        spanRuleta.style.setProperty('--index', i + 1)
         ruleta.appendChild(spanRuleta)
-
     }
-
 }
 
-AgregarJugador.addEventListener(
-    "submit",
-    (event) => {
 
-        event.preventDefault()
+formAgregarJugador.addEventListener('submit', (event) => {
+    event.preventDefault()
+    jugadores.push(event.target.participantName.value)
+    formAgregarJugador.reset();
+    renderizarJugadores();
+})
 
-        let nombre =
-            event.target.participantName.value
 
-        if (nombre.trim() !== '') {
-
-            jugadores.push(nombre)
-
-            AgregarJugador.reset()
-
-            renderizaJugadores()
-
-        }
-
-    }
-)
 const girarRuleta = () => {
-    //Divido los grados (360) dentro de los paritcipantes.
-    let espacioPorParticipante = 360 / jugadores.length
-    //Luego 5 vueltas por defecto.
-    let grados = (360) * 5
-    //Luego voy a generar un numero aleatorio entre el numero de participantes
-    let numeroAleatorio = Math.floor(Math.random() * ((jugadores.length-1)  - 0 + 1)) + 0
-    console.log(numeroAleatorio)
-    let posicionDeGanador = (numeroAleatorio * espacioPorParticipante + (espacioPorParticipante/2));
-    let extra = 90 - posicionDeGanador
-    posicionActual =  extra - posicionActual
-    inicio += grados + posicionActual;
+    if (jugadores.length === 0) return // Evita dividir entre cero si no hay participantes.
 
-    ruleta.style.setProperty('transition', 'transform 4s ease-out')
-    ruleta.style.transform = `rotate(${inicio}deg)`;
+    const flechaGanadora = 270 // La flecha visual está arriba: 270deg (equivale a -90deg).
+    const vueltasExtra = 5 // Cantidad de vueltas show antes de caer en el ganador.
+    const espacioPorParticipante = 360 / jugadores.length // Tamaño angular de cada sector.
+    const numeroAleatorio = Math.floor(Math.random() * jugadores.length) // Índice ganador aleatorio entre 0 y n-1.
+
+    const centro = -180 + (numeroAleatorio + 0.5) * espacioPorParticipante // Centro real del sector ganador (ajustado 90deg por la geometría de transform en CSS).
+    //342
+    const objetivo = flechaGanadora - centro // Rotación objetivo para alinear ese centro con la flecha.
+
+    const objetivoNorm = ((objetivo % 360) + 360) % 360 // Normaliza el objetivo al rango [0, 360).
+            //342
+
+    const actualNorm = ((inicio % 360) + 360) % 360 // Normaliza la rotación acumulada actual al rango [0, 360).
+           //0
+
+    const delta = (objetivoNorm - actualNorm + 360) % 360 // Giro mínimo positivo para pasar de actual a objetivo.
+           //342
+           //2142
+    const giroTotal = vueltasExtra * 360 + delta // Suma vueltas show más el ajuste exacto final.
+
+    inicio += giroTotal // Acumula rotación para mantener continuidad entre tiradas.
+
+    ruleta.style.setProperty('transition', 'transform 4s ease-out') // Define la animación del giro.
+    ruleta.style.transform = `rotate(${inicio}deg)` // Aplica la rotación acumulada real.
 
     setTimeout(() => {
         result.textContent = jugadores[(numeroAleatorio)]
     }, 4100)
 
 }
-botonGirar.addEventListener('click', girarRuleta )
 
-renderizaJugadores()
+botonGirar.addEventListener('click', girarRuleta);
 
+renderizarJugadores();
